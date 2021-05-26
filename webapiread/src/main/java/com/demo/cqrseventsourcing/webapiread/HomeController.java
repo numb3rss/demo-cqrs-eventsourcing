@@ -15,7 +15,7 @@ public class HomeController
     }
 
     @GetMapping("/")
-    public String home()
+    public String create()
     {
         return myService.message();
     }
