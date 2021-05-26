@@ -1,0 +1,5 @@
+rootProject.name = 'cqrs-eventsourcing'
+
+include 'cqrslibrary'
+include 'webapiread'
+include 'webapiwrite'
