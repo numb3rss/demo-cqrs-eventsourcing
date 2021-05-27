@@ -1,4 +1,4 @@
-package com.demo.cqrseventsourcing.webapiread;
+package com.demo.cqrseventsourcing.webapiread.adapters.primary.usecases.retrieveachievment;
 
 import com.demo.cqrseventsourcing.cqrslibrary.MyService;
 import org.springframework.web.bind.annotation.GetMapping;
