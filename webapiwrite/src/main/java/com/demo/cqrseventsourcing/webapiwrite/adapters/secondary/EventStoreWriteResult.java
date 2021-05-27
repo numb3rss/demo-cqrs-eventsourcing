@@ -9,7 +9,6 @@ public class EventStoreWriteResult extends AbstractActor {
     public Receive createReceive() {
         return receiveBuilder()
                 .match(WriteEventsCompleted.class, m -> {
-                    context().system().terminate();
                 })
                 .match(Status.Failure.class, f -> {
                 })

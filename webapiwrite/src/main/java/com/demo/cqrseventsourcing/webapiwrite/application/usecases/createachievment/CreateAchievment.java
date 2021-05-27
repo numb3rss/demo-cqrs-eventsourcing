@@ -4,6 +4,7 @@ import com.demo.cqrseventsourcing.cqrslibrary.ICommandHandler;
 import com.demo.cqrseventsourcing.cqrslibrary.ICommandPresenter;
 import com.demo.cqrseventsourcing.webapiwrite.adapters.primary.usecases.createachievment.CreateAchievmentPresenter;
 import com.demo.cqrseventsourcing.webapiwrite.adapters.secondary.EventStoreAchievmentRepository;
+import com.demo.cqrseventsourcing.webapiwrite.adapters.secondary.InfrastructureException;
 import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.Achievment;
 import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.AchievmentAggregate;
 import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.Location;
