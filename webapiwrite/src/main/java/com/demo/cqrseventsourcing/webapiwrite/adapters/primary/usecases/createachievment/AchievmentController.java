@@ -1,27 +1,33 @@
 package com.demo.cqrseventsourcing.webapiwrite.adapters.primary.usecases.createachievment;
 
 import com.demo.cqrseventsourcing.cqrslibrary.ICommandHandler;
+import com.demo.cqrseventsourcing.cqrslibrary.ICommandPresenter;
 import com.demo.cqrseventsourcing.webapiwrite.application.usecases.createachievment.CreateAchievmentCommand;
-import com.demo.cqrseventsourcing.webapiwrite.application.usecases.createachievment.CreateAchievmentResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("achievments")
-public class AchievmentController
+public class AchievmentController implements ICommandPresenter
 {
-    private final ICommandHandler<CreateAchievmentCommand, CreateAchievmentResult> commandHandler;
+    private final ICommandHandler<CreateAchievmentCommand> commandHandler;
+    private ResponseEntity viewModel;
 
-    public AchievmentController(ICommandHandler<CreateAchievmentCommand, CreateAchievmentResult> commandHandler) {
+    public AchievmentController(ICommandHandler<CreateAchievmentCommand> commandHandler) {
         this.commandHandler = commandHandler;
+        this.viewModel = ResponseEntity.status(202).build();
     }
 
     @PostMapping("/create")
-    public String create(@RequestBody CreateAchievmentRequest request) {
+    public ResponseEntity create(@RequestBody CreateAchievmentRequest request) {
+        this.commandHandler.setPresenter(this);
         var command = new CreateAchievmentCommand(request.getName(), request.getHappenedDate());
-        var result = commandHandler.handle(command);
-        return result.status;
+        commandHandler.handle(command);
+        return this.viewModel;
+    }
+
+    @Override
+    public void invalid(String message) {
+        this.viewModel = ResponseEntity.status(400).body(message);
     }
 }
