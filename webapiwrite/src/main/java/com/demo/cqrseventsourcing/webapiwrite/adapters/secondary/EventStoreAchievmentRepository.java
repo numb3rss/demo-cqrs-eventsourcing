@@ -1,6 +1,5 @@
 package com.demo.cqrseventsourcing.webapiwrite.adapters.secondary;
 
-import akka.actor.ActorRef;
 import com.demo.cqrseventsourcing.webapiwrite.adapters.secondary.event.CreateAchievmentEvent;
 import com.demo.cqrseventsourcing.webapiwrite.application.ports.EventStoreRepository;
 import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.AchievmentAggregate;
@@ -14,20 +13,16 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public class EventStoreAchievmentRepository implements EventStoreRepository<AchievmentAggregate> {
-    private final ActorRef connection;
-    private final EventStoreFactory eventStoreFactory;
-
-    public EventStoreAchievmentRepository(@Autowired EventStoreFactory eventStoreFactory) {
-        this.eventStoreFactory = eventStoreFactory;
-        connection = this.eventStoreFactory.CreateConnection();
+public class EventStoreAchievmentRepository extends EventStoreBaseRepository implements EventStoreRepository<AchievmentAggregate> {
+    public EventStoreAchievmentRepository(@Autowired EventStoreConfiguration eventStoreConfiguration) {
+        super(eventStoreConfiguration);
     }
 
     @Override
     public void emit(AchievmentAggregate achievmentAggregate) {
         try
         {
-            var writeResult = this.eventStoreFactory.CreateWriteResult();
+            var writeResult = this.buildWriteResult();
             var event = new CreateAchievmentEvent("test");
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(event);
@@ -39,11 +34,11 @@ public class EventStoreAchievmentRepository implements EventStoreRepository<Achi
                     .addEvent(eventData)
                     .expectAnyVersion()
                     .build();
-            connection.tell(writeEvents, writeResult);
+            this.connection.tell(writeEvents, writeResult);
         }
         catch (Exception exception)
         {
-
+            throw new InfrastructureException("There is an issue when writing event", exception);
         }
     }
 }

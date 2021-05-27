@@ -3,7 +3,6 @@ package com.demo.cqrseventsourcing.webapiwrite.adapters.secondary;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import eventstore.akka.Settings;
 import eventstore.akka.tcp.ConnectionActor;
 import eventstore.j.SettingsBuilder;
 import org.springframework.stereotype.Component;
@@ -11,23 +10,20 @@ import org.springframework.stereotype.Component;
 import java.net.InetSocketAddress;
 
 @Component
-public class EventStoreFactory {
-    private final ActorSystem system;
-    private final Settings settings;
+public abstract class EventStoreBaseRepository {
+    protected ActorSystem system;
+    protected ActorRef connection;
 
-    public EventStoreFactory() {
+    protected EventStoreBaseRepository(EventStoreConfiguration eventStoreConfiguration) {
         system = ActorSystem.create();
-        settings = new SettingsBuilder()
-                .address(new InetSocketAddress("127.0.0.1", 1113))
+        var settings = new SettingsBuilder()
+                .address(new InetSocketAddress(eventStoreConfiguration.getHost(), eventStoreConfiguration.getPort()))
                 .connectionName("write event store connection")
                 .build();
+        connection = system.actorOf(ConnectionActor.getProps(settings));
     }
 
-    public ActorRef CreateConnection() {
-        return system.actorOf(ConnectionActor.getProps(settings));
-    }
-
-    public ActorRef CreateWriteResult() {
+    public ActorRef buildWriteResult() {
         return system.actorOf(Props.create(EventStoreWriteResult.class));
     }
 }

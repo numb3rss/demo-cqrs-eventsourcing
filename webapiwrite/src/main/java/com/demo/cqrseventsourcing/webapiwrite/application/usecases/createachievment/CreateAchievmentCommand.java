@@ -8,6 +8,7 @@ public class CreateAchievmentCommand implements ICommand {
     private String name;
     private LocalDate happenedDate;
 
+
     public CreateAchievmentCommand(String name, LocalDate happenedDate) {
         this.name = name;
         this.happenedDate = happenedDate;
