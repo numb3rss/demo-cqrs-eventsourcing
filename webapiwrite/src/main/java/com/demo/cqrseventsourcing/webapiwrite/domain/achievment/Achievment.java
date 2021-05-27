@@ -8,6 +8,10 @@ public class Achievment {
     private LocalDate hasOccuredDate;
     private Location location;
 
+    public LocalDate getHasOccuredDate() {
+        return this.hasOccuredDate;
+    }
+
     public Achievment(LocalDate hasOccuredDate, Location location) {
         this.id = UUID.randomUUID();
         this.hasOccuredDate = hasOccuredDate;
