@@ -1,4 +1,4 @@
-package com.demo.cqrseventsourcing.projectorservice;
+package com.demo.cqrseventsourcing.projectorservice.adapters.primary;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
