@@ -1,31 +1,37 @@
 package com.demo.cqrseventsourcing.projectorservice.adapters.primary;
 
+import com.demo.cqrseventsourcing.projectorservice.adapters.primary.projections.ProjectionFactory;
+import com.demo.cqrseventsourcing.projectorservice.adapters.primary.projections.ProjectionHandler;
+import com.demo.cqrseventsourcing.projectorservice.adapters.secondary.eventstore.CheckpointStore;
+import com.demo.cqrseventsourcing.projectorservice.adapters.secondary.eventstore.EventStoreConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 
 @Component
 public class ThreadPoolTaskSchedulerProjections {
     private final EventStoreConnectionFactory eventStoreConnectionFactory;
     private final ThreadPoolTaskScheduler taskScheduler;
-    private final ProjectionsFactory projectionsFactory;
+    private final CheckpointStore checkpointStore;
+    private final ProjectionFactory projectionFactory;
 
     public ThreadPoolTaskSchedulerProjections(
             @Autowired EventStoreConnectionFactory eventStoreConnectionFactory,
             @Autowired ThreadPoolTaskScheduler taskScheduler,
-            @Autowired ProjectionsFactory projectionsFactory) {
+            @Autowired CheckpointStore checkpointStore,
+            @Autowired ProjectionFactory projectionFactory) {
         this.eventStoreConnectionFactory = eventStoreConnectionFactory;
         this.taskScheduler = taskScheduler;
-        this.projectionsFactory = projectionsFactory;
+        this.checkpointStore = checkpointStore;
+        this.projectionFactory = projectionFactory;
     }
 
     @PostConstruct
-    public void scheduleRunner() {
-        var projections = projectionsFactory.getProjections();
-        for (Runnable projection: projections) {
-            taskScheduler.scheduleWithFixedDelay(projection, 1000);
-        }
+    public void scheduleRunner()
+    {
+        taskScheduler.schedule(new ProjectionHandler(eventStoreConnectionFactory, checkpointStore, projectionFactory), new Date(System.currentTimeMillis()));
     }
 }
