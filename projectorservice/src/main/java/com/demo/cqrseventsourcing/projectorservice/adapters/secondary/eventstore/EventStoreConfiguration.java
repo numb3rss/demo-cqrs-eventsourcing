@@ -1,4 +1,4 @@
-package com.demo.cqrseventsourcing.projectorservice.adapters.primary;
+package com.demo.cqrseventsourcing.projectorservice.adapters.secondary.eventstore;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

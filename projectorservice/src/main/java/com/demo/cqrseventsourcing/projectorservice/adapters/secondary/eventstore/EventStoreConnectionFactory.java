@@ -1,4 +1,4 @@
-package com.demo.cqrseventsourcing.projectorservice.adapters.primary;
+package com.demo.cqrseventsourcing.projectorservice.adapters.secondary.eventstore;
 
 import akka.actor.ActorSystem;
 import eventstore.j.EsConnection;
