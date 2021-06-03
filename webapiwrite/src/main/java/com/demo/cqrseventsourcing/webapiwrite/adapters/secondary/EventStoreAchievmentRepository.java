@@ -10,7 +10,6 @@ import eventstore.j.EventDataBuilder;
 import eventstore.j.WriteEventsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.UUID;
 
 @Repository
 public class EventStoreAchievmentRepository extends EventStoreBaseRepository implements EventStoreRepository<AchievmentAggregate> {
@@ -23,11 +22,11 @@ public class EventStoreAchievmentRepository extends EventStoreBaseRepository imp
         try
         {
             var writeResult = this.buildWriteResult();
-            var event = new CreateAchievmentEvent("test");
+            var event = new CreateAchievmentEvent(achievmentAggregate.getAchievment().getId(), achievmentAggregate.getAchievment().getName());
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(event);
             final EventData eventData = new EventDataBuilder("create-achievment-event")
-                    .eventId(UUID.randomUUID())
+                    .eventId(achievmentAggregate.getAchievment().getId())
                     .jsonData(json)
                     .build();
             final WriteEvents writeEvents = new WriteEventsBuilder("achievments")

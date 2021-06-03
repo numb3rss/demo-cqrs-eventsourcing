@@ -6,8 +6,8 @@ public class CreateAchievmentEvent {
     private UUID id;
     private String name;
 
-    public CreateAchievmentEvent(String name) {
-        this.id = UUID.randomUUID();
+    public CreateAchievmentEvent(UUID id, String name) {
+        this.id = id;
         this.name = name;
     }
 

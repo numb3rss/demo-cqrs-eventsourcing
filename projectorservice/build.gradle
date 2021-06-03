@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'com.geteventstore:eventstore-client_2.13:7.3.1'
     implementation 'io.vavr:vavr:0.10.3'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.13.0'
     runtimeOnly 'org.hsqldb:hsqldb'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation 'org.awaitility:awaitility:3.1.2'
