@@ -6,6 +6,8 @@ import com.demo.cqrseventsourcing.webapiwrite.application.usecases.createachievm
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("achievments")
 public class AchievmentController implements ICommandPresenter
@@ -15,7 +17,6 @@ public class AchievmentController implements ICommandPresenter
 
     public AchievmentController(ICommandHandler<CreateAchievmentCommand> commandHandler) {
         this.commandHandler = commandHandler;
-        this.viewModel = ResponseEntity.status(202).build();
     }
 
     @PostMapping("/create")
@@ -30,4 +31,7 @@ public class AchievmentController implements ICommandPresenter
     public void invalid(String message) {
         this.viewModel = ResponseEntity.status(400).body(message);
     }
+
+    @Override
+    public void ok(UUID id) {  this.viewModel = ResponseEntity.status(202).body(id); }
 }

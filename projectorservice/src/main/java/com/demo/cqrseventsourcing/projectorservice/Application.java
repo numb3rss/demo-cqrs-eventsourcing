@@ -1,5 +1,6 @@
 package com.demo.cqrseventsourcing.projectorservice;
 
+import com.demo.cqrseventsourcing.projectorservice.application.ports.ElasticSearchRepository;
 import com.demo.cqrseventsourcing.projectorservice.application.usecases.ImportAchievment;
 import com.demo.cqrseventsourcing.projectorservice.application.usecases.ImportAchievmentValidation;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +16,7 @@ public class Application {
     }
 
     @Bean(name = "validationUseCase")
-    ImportAchievment validationUseCase(final ImportAchievment importAchievment){
-        return new ImportAchievmentValidation(importAchievment);
+    ImportAchievment validationUseCase(final ImportAchievment importAchievment, final ElasticSearchRepository elasticSearchRepository){
+        return new ImportAchievmentValidation(importAchievment, elasticSearchRepository);
     }
 }

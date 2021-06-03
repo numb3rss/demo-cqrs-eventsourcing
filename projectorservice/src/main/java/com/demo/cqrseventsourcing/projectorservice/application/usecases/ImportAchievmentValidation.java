@@ -1,15 +1,17 @@
 package com.demo.cqrseventsourcing.projectorservice.application.usecases;
 
-import eventstore.core.Event;
+import com.demo.cqrseventsourcing.projectorservice.application.ports.ElasticSearchRepository;
 import eventstore.core.IndexedEvent;
 import io.vavr.control.Option;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ImportAchievmentValidation extends ImportAchievment {
     private final ImportAchievment importAchievment;
 
-    public ImportAchievmentValidation(ImportAchievment importAchievment){
+    public ImportAchievmentValidation(ImportAchievment importAchievment, @Autowired ElasticSearchRepository elasticSearchRepository){
+        super(elasticSearchRepository);
         this.importAchievment = importAchievment;
     }
 

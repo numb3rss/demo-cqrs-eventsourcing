@@ -4,10 +4,8 @@ import com.demo.cqrseventsourcing.cqrslibrary.ICommandHandler;
 import com.demo.cqrseventsourcing.cqrslibrary.ICommandPresenter;
 import com.demo.cqrseventsourcing.webapiwrite.adapters.primary.usecases.createachievment.CreateAchievmentPresenter;
 import com.demo.cqrseventsourcing.webapiwrite.adapters.secondary.EventStoreAchievmentRepository;
-import com.demo.cqrseventsourcing.webapiwrite.adapters.secondary.InfrastructureException;
 import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.Achievment;
 import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.AchievmentAggregate;
-import com.demo.cqrseventsourcing.webapiwrite.domain.achievment.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +27,13 @@ public class CreateAchievment implements ICommandHandler<CreateAchievmentCommand
 
     @Override
     public void handle(CreateAchievmentCommand createAchievmentCommand) {
-        var location = new Location("Lille");
-        var achievment = new Achievment(createAchievmentCommand.getHappenedDate(), location);
+        var achievment = new Achievment(createAchievmentCommand.getHappenedDate(), createAchievmentCommand.getName());
         var achievmentAggregate = new AchievmentAggregate(achievment);
         var commandError = achievmentAggregate.isValid();
 
         if(commandError.isEmpty()){
             repository.emit(achievmentAggregate);
+            this.presenter.ok(achievment.getId());
             return;
         }
 

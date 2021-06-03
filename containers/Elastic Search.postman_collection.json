@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "92d8da55-c935-4d64-bdc3-f227bbba7906",
+		"name": "Elastic Search",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Index",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"settings\": {\n        \"index\": {\n            \"number_of_shards\": 3,\n            \"number_of_replicas\": 2\n        }\n    },\n    \"mappings\": {\n        \"properties\": {\n            \"id\": { \"type\": \"text\" },\n            \"name\": { \"type\": \"text\" }\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/achievments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"achievments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Indexes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/_cat/indices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"indices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Index",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/achievments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"achievments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search A Document",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": {\n        \"match\": {\n            \"id\": {\n                \"query\": \"d41e3a13-6379-4295-b7e4-6a15060a7b6e\"\n            }\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/achievments/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"achievments",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add New Document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"@timestamp\": \"2021-06-01T10:25:22.884914Z\",\n    \"achievment\": {\n        \"id\": \"10D96BFC-9EA6-4652-A49F-D95F4C2C5C51\",\n        \"name\": \"test\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/achievments/_doc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"achievments",
+						"_doc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List First Document",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "List All Docuemnts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": {\n        \"match_all\": {}\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9200/achievments/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"achievments",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
