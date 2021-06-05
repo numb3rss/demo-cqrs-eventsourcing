@@ -19,7 +19,7 @@ public class AchievmentController implements ICommandPresenter
         this.commandHandler = commandHandler;
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity create(@RequestBody CreateAchievmentRequest request) {
         this.commandHandler.setPresenter(this);
         var command = new CreateAchievmentCommand(request.getName(), request.getHappenedDate());
