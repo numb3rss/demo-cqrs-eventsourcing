@@ -16,6 +16,8 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.13.0'
     implementation project(':cqrslibrary')
+    implementation 'io.vavr:vavr:0.10.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
